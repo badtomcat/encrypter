@@ -24,5 +24,15 @@ class CodeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("akdwedie32165!$#@12",$test->decode($ret));
     }
 
+    public function testXorsalt()
+    {
+        $test = new \Badtomcat\Encrypter\XorSalt();
+        $ret = $test->encode("akdwedie32165!$#@12","salt..");
+//        print "\n======================================\n";
+//        print chunk_split($ret,8);
+//        print "\n======================================\n";
+        $this->assertEquals("akdwedie32165!$#@12",$test->decode($ret,"salt.."));
+        $this->assertNotEquals("akdwedie32165!$#@12",$test->decode($ret,"salt..."));
+    }
 }
 

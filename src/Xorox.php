@@ -10,7 +10,7 @@
 namespace Badtomcat\Encrypter;
 
 
-class xorox
+class Xorox
 {
     protected $ascii_key = 0x7e;
     protected $key_length_key = 0x38;
@@ -31,7 +31,7 @@ class xorox
          *
          * 正文密钥
          *
-         * */
+         **/
 
         //1.生成1-16个随机密钥
         $this->ascii_key = rand(0, 255);     //全文异或
@@ -100,9 +100,6 @@ class xorox
             $arr[] = ($hex_prefix ? '0x' : '') . str_pad(dechex($i == 0 ? $char : $char ^ $this->ascii_key), 2, "0", STR_PAD_LEFT) . "";
         }
 
-        print "key length:$key_len\n";
-        print "data length:$datalen\n";
-
         if ($hex_prefix) {
             return '[' . join(",", $arr) . ']';
         } else {
@@ -127,7 +124,7 @@ class xorox
         //先进行整个数组和第一个元素异或,得到的数组
         $ascii_key = $data[0];
         $data = array_map(function ($code) use ($ascii_key) {
-            return hexdec($code) ^ $ascii_key;
+            return hexdec($code) ^ hexdec($ascii_key);
         }, $data);
         $key = array_slice($data, 8, $data[5] ^ $data[1]);
         $arr = array_slice($data, ($data[5] ^ $data[1]) + 8, (($data[2] ^ $data[6]) << 8) | ($data[7] ^ $data[2]));
